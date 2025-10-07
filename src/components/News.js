@@ -6,7 +6,7 @@ export default function News(props) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  git add . const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+   const apiKey = process.env.REACT_APP_NEWS_API_KEY;
 
   
   const capitalizeFirstLetter = (string) => {
