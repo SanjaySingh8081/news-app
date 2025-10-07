@@ -13,6 +13,9 @@ export default function News(props) {
   }
 
   useEffect(() => {
+    // THIS IS THE NEW DEBUG LINE
+    console.log("THE API KEY VERCEL IS USING:", apiKey); 
+    
     document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`;
 
     const fetchNews = async () => {
@@ -22,7 +25,6 @@ export default function News(props) {
         return;
       }
       
-      // FINAL CORRECTION: Using 'token' instead of 'apikey'
       const url = `https://gnews.io/api/v4/top-headlines?category=${props.category}&lang=en&country=in&token=${apiKey}`;
       setLoading(true);
       try {
