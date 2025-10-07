@@ -17,18 +17,20 @@ export default function News(props) {
 
     const fetchNews = async () => {
       if (!apiKey) {
+        console.error("API Key is missing!");
         setLoading(false);
         return;
       }
       
-      // THE CHANGE IS HERE: We are now using the /everything endpoint with a search query.
-      // This is much more reliable for finding news about India.
-      const url = `https://newsapi.org/v2/everything?q=${props.category} india&sortBy=publishedAt&apiKey=${apiKey}`;
+      // CHANGE 1: Updated URL for the GNews API
+      const url = `https://gnews.io/api/v4/top-headlines?category=${props.category}&lang=en&country=in&apikey=${apiKey}`;
       setLoading(true);
       try {
         const response = await fetch(url);
         const data = await response.json();
-        if (data.status === "ok") {
+
+        // CHANGE 2: GNews returns 'articles' directly, so we check for that
+        if (data.articles) {
           setArticles(data.articles);
         } else {
           setArticles([]);
@@ -41,7 +43,7 @@ export default function News(props) {
     };
 
     fetchNews();
-  }, [props.category]);
+  }, [props.category, apiKey]);
 
   return (
     <div className="container my-4">
@@ -62,12 +64,13 @@ export default function News(props) {
           {articles && articles.length > 0 ? (
             articles.map((element) => (
               <div className="col-md-4" key={element.url}>
+                {/* CHANGE 3: The prop names from GNews are slightly different */}
                 <NewsItem 
                   title={element.title} 
                   description={element.description} 
-                  imageUrl={element.urlToImage} 
+                  imageUrl={element.image} {/* GNews uses 'image' not 'urlToImage' */}
                   newsUrl={element.url}
-                  author={element.author}
+                  author={element.source.name} {/* GNews provides source name as author */}
                   date={element.publishedAt}
                   source={element.source.name}
                 />
