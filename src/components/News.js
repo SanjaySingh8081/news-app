@@ -13,9 +13,6 @@ export default function News(props) {
   }
 
   useEffect(() => {
-    // THIS IS THE NEW DEBUG LINE
-    console.log("THE API KEY VERCEL IS USING:", apiKey); 
-    
     document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`;
 
     const fetchNews = async () => {
@@ -25,15 +22,21 @@ export default function News(props) {
         return;
       }
       
-      const url = `https://gnews.io/api/v4/top-headlines?category=${props.category}&lang=en&country=in&token=${apiKey}`;
+      // Use the NewsData.io API endpoint
+      // Note: The category 'general' is not supported, so we'll use a default like 'top' news.
+      const category = props.category === 'general' ? 'top' : props.category;
+      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=in&category=${category}`;
+      
       setLoading(true);
       try {
         const response = await fetch(url);
         const data = await response.json();
 
-        if (data.articles) {
-          setArticles(data.articles);
+        // The NewsData.io API returns articles in the 'results' array.
+        if (data.results) {
+          setArticles(data.results);
         } else {
+          console.error("Error fetching news from NewsData.io:", data);
           setArticles([]);
         }
       } catch (error) {
@@ -64,15 +67,17 @@ export default function News(props) {
         <div className="row">
           {articles && articles.length > 0 ? (
             articles.map((element) => (
-              <div className="col-md-4" key={element.url}>
+              // Use element.article_id as a key since it's unique
+              <div className="col-md-4" key={element.article_id}>
+                {/* Map the NewsData.io data structure to our NewsItem component */}
                 <NewsItem 
                   title={element.title} 
                   description={element.description} 
-                  imageUrl={element.image}
-                  newsUrl={element.url}
-                  author={element.source.name}
-                  date={element.publishedAt}
-                  source={element.source.name}
+                  imageUrl={element.image_url}
+                  newsUrl={element.link}
+                  author={element.creator ? element.creator[0] : element.source_id}
+                  date={element.pubDate}
+                  source={element.source_id}
                 />
               </div>
             ))
