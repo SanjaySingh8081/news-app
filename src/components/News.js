@@ -6,8 +6,7 @@ export default function News(props) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-   const apiKey = process.env.REACT_APP_NEWS_API_KEY;
-
+  const apiKey = process.env.REACT_APP_NEWS_API_KEY;
   
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -23,14 +22,13 @@ export default function News(props) {
         return;
       }
       
-      // CHANGE 1: Updated URL for the GNews API
-      const url = `https://gnews.io/api/v4/top-headlines?category=${props.category}&lang=en&country=in&apikey=${apiKey}`;
+      // FINAL CORRECTION: Using 'token' instead of 'apikey'
+      const url = `https://gnews.io/api/v4/top-headlines?category=${props.category}&lang=en&country=in&token=${apiKey}`;
       setLoading(true);
       try {
         const response = await fetch(url);
         const data = await response.json();
 
-        // CHANGE 2: GNews returns 'articles' directly, so we check for that
         if (data.articles) {
           setArticles(data.articles);
         } else {
@@ -65,17 +63,15 @@ export default function News(props) {
           {articles && articles.length > 0 ? (
             articles.map((element) => (
               <div className="col-md-4" key={element.url}>
-                {/* CHANGE 3: The prop names from GNews are slightly different */}
-               
-<NewsItem 
-  title={element.title} 
-  description={element.description} 
-  imageUrl={element.image} 
-  newsUrl={element.url}
-  author={element.source.name} 
-  date={element.publishedAt}
-  source={element.source.name}
-/>
+                <NewsItem 
+                  title={element.title} 
+                  description={element.description} 
+                  imageUrl={element.image}
+                  newsUrl={element.url}
+                  author={element.source.name}
+                  date={element.publishedAt}
+                  source={element.source.name}
+                />
               </div>
             ))
           ) : (
