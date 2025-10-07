@@ -65,15 +65,16 @@ export default function News(props) {
             articles.map((element) => (
               <div className="col-md-4" key={element.url}>
                 {/* CHANGE 3: The prop names from GNews are slightly different */}
-                <NewsItem 
-                  title={element.title} 
-                  description={element.description} 
-                  imageUrl={element.image} {/* GNews uses 'image' not 'urlToImage' */}
-                  newsUrl={element.url}
-                  author={element.source.name} {/* GNews provides source name as author */}
-                  date={element.publishedAt}
-                  source={element.source.name}
-                />
+               
+<NewsItem 
+  title={element.title} 
+  description={element.description} 
+  imageUrl={element.image} 
+  newsUrl={element.url}
+  author={element.source.name} 
+  date={element.publishedAt}
+  source={element.source.name}
+/>
               </div>
             ))
           ) : (
