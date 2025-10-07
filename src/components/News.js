@@ -6,7 +6,8 @@ export default function News(props) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+  // const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+const apiKey = "c12d4cd7d39984b18708ef3cb7719944"; // <-- TEMPORARY KEY FOR DEBUGGING
   
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
