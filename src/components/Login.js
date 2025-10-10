@@ -25,9 +25,7 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Use the login function from context to update the global state
         login(data.token, data.user);
-        // Navigate to the homepage
         navigate('/');
       } else {
         setMessage(data.message || 'Something went wrong.');
@@ -67,6 +65,11 @@ export default function Login() {
             </div>
             <button type="submit" className="btn btn-primary">Log In</button>
           </form>
+
+          <div className="text-center mt-2">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+          
           {message && <div className="alert alert-danger mt-3">{message}</div>}
           <p className="mt-3">
             Don't have an account? <Link to="/signup">Sign Up</Link>

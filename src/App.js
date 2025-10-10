@@ -9,6 +9,9 @@ import { AuthProvider } from './context/AuthContext';
 import SavedArticles from './components/SavedArticles';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword'; // <-- Import
+
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
               <Route exact path="/saved" element={<SavedArticles />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/login" element={<Login />} />
+              <Route exact path="/forgot-password" element={<ForgotPassword />} />
+              <Route exact path="/forgot-password" element={<ForgotPassword />} />
+              <Route exact path="/reset-password/:token" element={<ResetPassword />} />
             </Routes>
             <BackToTopButton />
           </Router>

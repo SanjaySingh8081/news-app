@@ -4,8 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
-// We don't need the port for Vercel
-// const port = 5000; 
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -24,10 +23,12 @@ connection.once('open', () => {
 const authRouter = require('./routes/auth');
 app.use('/api/auth', authRouter);
 
-// REMOVED app.listen() FOR VERCEL
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// });
+// This block checks if the file is being run directly (like with `npm start`)
+// or if it's being imported by Vercel.
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
 
-// ADD THIS LINE FOR VERCEL
 module.exports = app;
